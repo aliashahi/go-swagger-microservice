@@ -41,15 +41,14 @@ Welcome to the Golang Microservice project utilizing Swagger for API documentati
 
 3. **Run the Server**:
    ```
-   cd server
-   go run main.go
+   go run server/main.go
    ```
 
 4. **Run the Client**:
    ```
-   cd client
-   go run main.go
+   go run client/main.go
    ```
+   or run with ```vscode run and debug```
 
 5. **Access Swagger UI**:
    Open your web browser and navigate to `http://localhost:8002/api/swagger/index.html` to view Swagger documentation.
@@ -65,28 +64,34 @@ Welcome to the Golang Microservice project utilizing Swagger for API documentati
 
 ## Protobuf Setup
 
-To set up Protobuf for your project, follow these steps:
+To install/update proto compiler we need to install/update these binaries :
+- protoc
+- protoc-gen-go-grpc
+- protoc-gen-go
 
-1. Install Protobuf Compiler:
-   - For macOS:
-     ```
-     brew install protobuf
-     ```
-   - For Linux:
-     ```
-     sudo apt-get install protobuf-compiler
-     ```
+ thereby these steps are required:
 
-2. Install Protobuf Go Plugin:
-   ```
-   go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-   ```
+1.remove already installed binaries :
+ - find them with ```whereis <binary>``` and remove them with ```sudo rm -rf <binary>``` 
 
-3. Define your Protobuf messages and services in `.proto` files in the `protobuf` directory.
+2.install protoc with these commands:
 
-4. Generate Go code from Protobuf definitions:
-   ```
-   protoc --go_out=. protobuf/*.proto
-   ```
+```shell
+PROTOC_ZIP=protoc-25.2-linux-x86_64.zip
+curl -OL https://github.com/protocolbuffers/protobuf/releases/download/v25.2/$PROTOC_ZIP
+sudo unzip -o $PROTOC_ZIP -d /usr bin/protoc
+sudo unzip -o $PROTOC_ZIP -d /usr 'include/*'
+rm -f $PROTOC_ZIP
+```
 
-5. Use the generated Go files in your project.
+3. install `protoc-gen-go` and `protoc-gen-go-grpc`:
+```shell
+go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+```
+
+### references:
+
+[installing protoc](https://google.github.io/proto-lens/installing-protoc.html)
+
+[gRPC Quick start](https://grpc.io/docs/languages/go/quickstart/)
